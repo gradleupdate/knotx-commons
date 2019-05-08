@@ -15,6 +15,8 @@
  */
 import org.nosphere.apache.rat.RatTask
 
+group = "io.knotx"
+
 plugins {
     id("java-library")
     id("maven-publish")
