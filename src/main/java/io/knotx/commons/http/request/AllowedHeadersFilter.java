@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.knotx.commons;
+package io.knotx.commons.http.request;
 
 import java.util.List;
 import java.util.function.Predicate;
