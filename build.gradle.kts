@@ -40,6 +40,12 @@ dependencies {
 
     // This dependency is used internally, and not exposed to consumers on their own compile classpath.
     implementation(group = "com.google.guava", name = "guava")
+    implementation(group = "org.junit.jupiter", name = "junit-jupiter-api")
+    implementation(group = "org.junit.jupiter", name = "junit-jupiter-params")
+    implementation(group = "org.junit.jupiter", name = "junit-jupiter-migrationsupport")
+
+    testImplementation(group = "org.mockito", name = "mockito-core")
+    testImplementation(group = "org.mockito", name = "mockito-junit-jupiter")
 }
 
 tasks {
