@@ -15,9 +15,13 @@
  */
 package io.knotx.commons.http.request;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class AllowedHeadersFilter implements Predicate<String> {
 
@@ -29,6 +33,21 @@ public class AllowedHeadersFilter implements Predicate<String> {
 
   public static AllowedHeadersFilter create(List<Pattern> patterns) {
     return new AllowedHeadersFilter(patterns);
+  }
+
+  private static AllowedHeadersFilter create(Set<String> regexes) {
+    regexes = Objects.isNull(regexes) ? Collections.emptySet() : regexes;
+    List<Pattern> patterns = regexes.stream()
+        .map(regex -> Pattern.compile(regex, Pattern.CASE_INSENSITIVE))
+        .collect(Collectors.toList());
+
+    return AllowedHeadersFilter.create(patterns);
+  }
+
+  public static class CaseInsensitive {
+    public static AllowedHeadersFilter create(Set<String> regexes) {
+      return AllowedHeadersFilter.create(regexes);
+    }
   }
 
   @Override
