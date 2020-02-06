@@ -22,7 +22,6 @@ plugins {
     id("io.knotx.maven-publish")
     id("io.knotx.unit-test")
     id("io.knotx.jacoco")
-
     id("org.nosphere.apache.rat")
 }
 
