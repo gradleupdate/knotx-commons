@@ -18,10 +18,12 @@ import org.nosphere.apache.rat.RatTask
 group = "io.knotx"
 
 plugins {
-    id("io.knotx.java-library") version "0.1.1"
-    id("io.knotx.maven-publish") version "0.1.1"
+    id("io.knotx.java-library")
+    id("io.knotx.maven-publish")
+    id("io.knotx.unit-test")
+    id("io.knotx.jacoco")
 
-    id("org.nosphere.apache.rat") version "0.4.0"
+    id("org.nosphere.apache.rat")
 }
 
 repositories {
@@ -50,7 +52,12 @@ dependencies {
 
 tasks {
     named<RatTask>("rat") {
-        excludes.addAll("*.md", "**/build/*", "**/out/*", "gradle", "gradle.properties", ".travis.yml", ".idea")
+        excludes.addAll(listOf(
+                "*.md", // docs
+                "gradle/wrapper/**", "gradle*", "**/build/**", // Gradle
+                "*.iml", "*.ipr", "*.iws", "*.idea/**", // IDEs
+                ".github/*"
+        ))
     }
     getByName("build").dependsOn("rat")
 }
