@@ -13,5 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-rootProject.name = "knotx-commons"
+repositories {
+    mavenLocal()
+    mavenCentral()
+    gradlePluginPortal()
+}
+dependencies {
+    implementation("io.knotx:knotx-gradle-plugins:0.1.4")
+    implementation("org.nosphere.apache.rat:org.nosphere.apache.rat.gradle.plugin:0.6.0")
+}
