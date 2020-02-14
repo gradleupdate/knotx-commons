@@ -31,22 +31,22 @@ public class AllowedHeadersFilter implements Predicate<String> {
     this.patterns = patterns;
   }
 
-  public static AllowedHeadersFilter create(List<Pattern> patterns) {
-    return new AllowedHeadersFilter(patterns);
+  public static AllowedHeadersFilter create(List<Pattern> regexes) {
+    return new AllowedHeadersFilter(regexes);
   }
 
-  private static AllowedHeadersFilter create(Set<String> regexes) {
-    regexes = Objects.isNull(regexes) ? Collections.emptySet() : regexes;
-    List<Pattern> patterns = regexes.stream()
-        .map(regex -> Pattern.compile(regex, Pattern.CASE_INSENSITIVE))
+  private static AllowedHeadersFilter create(Set<String> expressions) {
+    expressions = Objects.isNull(expressions) ? Collections.emptySet() : expressions;
+    List<Pattern> patterns = expressions.stream()
+        .map(expression -> Pattern.compile(expression, Pattern.CASE_INSENSITIVE))
         .collect(Collectors.toList());
 
     return AllowedHeadersFilter.create(patterns);
   }
 
   public static class CaseInsensitive {
-    public static AllowedHeadersFilter create(Set<String> regexes) {
-      return AllowedHeadersFilter.create(regexes);
+    public static AllowedHeadersFilter create(Set<String> expressions) {
+      return AllowedHeadersFilter.create(expressions);
     }
   }
 
