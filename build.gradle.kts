@@ -21,6 +21,7 @@ plugins {
     id("io.knotx.java-library")
     id("io.knotx.maven-publish")
     id("io.knotx.unit-test")
+    id("io.knotx.release-java")
     id("io.knotx.jacoco")
     id("org.nosphere.apache.rat")
 }
@@ -30,16 +31,13 @@ repositories {
     mavenLocal()
     maven { url = uri("https://plugins.gradle.org/m2/") }
     maven { url = uri("https://oss.sonatype.org/content/groups/staging/") }
-    maven { url = uri("https://oss.sonatype.org/content/repositories/snapshots") }
 }
 
 dependencies {
-    // This dependency is exported to consumers, that is to say found on their compile classpath.
     implementation(platform("io.knotx:knotx-dependencies:${project.version}"))
     implementation(group = "io.vertx", name = "vertx-core")
     implementation(group = "io.vertx", name = "vertx-rx-java2")
 
-    // This dependency is used internally, and not exposed to consumers on their own compile classpath.
     implementation(group = "com.google.guava", name = "guava")
     implementation(group = "org.junit.jupiter", name = "junit-jupiter-api")
     implementation(group = "org.junit.jupiter", name = "junit-jupiter-params")
