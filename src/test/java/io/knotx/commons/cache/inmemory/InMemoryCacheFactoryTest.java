@@ -13,23 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package io.knotx.commons.cache.inmemory;
 
-rootProject.name = "knotx-commons"
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-pluginManagement {
-    val version: String by settings
-    plugins {
-        id("io.knotx.java-library") version version
-        id("io.knotx.codegen") version version
-        id("io.knotx.unit-test") version version
-        id("io.knotx.jacoco") version version
-        id("io.knotx.maven-publish") version version
-        id("io.knotx.release-java") version version
-        id("org.nosphere.apache.rat") version "0.6.0"
-    }
-    repositories {
-        mavenLocal()
-        jcenter()
-        gradlePluginPortal()
-    }
+import io.knotx.commons.cache.Cache;
+import io.knotx.commons.cache.CacheFactory;
+import io.vertx.core.json.JsonObject;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+class InMemoryCacheFactoryTest {
+
+  @Test
+  @DisplayName("Expect valid cache created with default configuration")
+  void createCache() {
+    CacheFactory tested = new InMemoryCacheFactory();
+
+    Cache cache = tested.create(new JsonObject(), null);
+
+    assertTrue(cache instanceof InMemoryCache);
+  }
+
 }

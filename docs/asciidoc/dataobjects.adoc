@@ -1,0 +1,51 @@
+= Cheatsheets
+
+[[InMemoryCacheOptions]]
+== InMemoryCacheOptions
+
+
+[cols=">25%,25%,50%"]
+[frame="topbot"]
+|===
+^|Name | Type ^| Description
+|[[enableMaximumSize]]`@enableMaximumSize`|`Boolean`|+++
+Sets flag controlling whether cache size should be limited by number of entries. When enabled,
+ maximumSize option is passed to Cache builder.
+ <p>
+ Defaults to true.
++++
+|[[enableTtlAfterAccess]]`@enableTtlAfterAccess`|`Boolean`|+++
+Sets flag controlling whether TTL after access should be configured. When enabled, ttlAfterAccess
+ option is passed to Cache builder.
+ <p>
+ Defaults to false.
++++
+|[[enableTtlAfterWrite]]`@enableTtlAfterWrite`|`Boolean`|+++
+Sets flag controlling whether TTL after write should be configured. When enabled, ttlAfterWrite
+ or ttl option is passed to Cache builder.
+ <p>
+ Defaults to true.
++++
+|[[maximumSize]]`@maximumSize`|`Number (long)`|+++
+Sets maximum cache size (number of entries).
+ <p>
+ Defaults to 1000.
++++
+|[[ttl]]`@ttl`|`Number (long)`|+++
+Legacy option for setting TTL after write in ms. Applies only when ttlAfterWrite is not set and
+ enableTtlAfterWrite is set to true.
+ <p>
+ Defaults to 5000ms.
++++
+|[[ttlAfterAccessMs]]`@ttlAfterAccessMs`|`Number (long)`|+++
+TTL after access in millis. Applies only when enableTtlAfterAccess is set to true.
+ <p>
+ Defaults to 5000ms.
++++
+|[[ttlAfterWriteMs]]`@ttlAfterWriteMs`|`Number (Long)`|+++
+TTL after write in millis. Applies only when enableTtlAfterWrite is set to true.
+ <p>
+ Not set by default.
++++
+|===
+

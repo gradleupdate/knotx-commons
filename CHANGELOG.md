@@ -3,6 +3,7 @@ All notable changes to `knotx-commons` will be documented in this file.
 
 ## Unreleased
 List of changes that are finished but not yet released in any final version.
+- [PR-35](https://github.com/Knotx/knotx-commons/pull/35) Introduce Cache and CacheFactory interfaces and in-memory implementation - moved from `knotx-fragments` [192](https://github.com/Knotx/knotx-fragments/issues/192)
                 
 ## 2.2.1
                 

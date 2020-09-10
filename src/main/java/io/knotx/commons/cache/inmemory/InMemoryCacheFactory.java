@@ -13,23 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package io.knotx.commons.cache.inmemory;
 
-rootProject.name = "knotx-commons"
+import io.knotx.commons.cache.Cache;
+import io.knotx.commons.cache.CacheFactory;
+import io.vertx.core.Vertx;
+import io.vertx.core.json.JsonObject;
 
-pluginManagement {
-    val version: String by settings
-    plugins {
-        id("io.knotx.java-library") version version
-        id("io.knotx.codegen") version version
-        id("io.knotx.unit-test") version version
-        id("io.knotx.jacoco") version version
-        id("io.knotx.maven-publish") version version
-        id("io.knotx.release-java") version version
-        id("org.nosphere.apache.rat") version "0.6.0"
-    }
-    repositories {
-        mavenLocal()
-        jcenter()
-        gradlePluginPortal()
-    }
+public class InMemoryCacheFactory implements CacheFactory {
+
+  @Override
+  public String getType() {
+    return "in-memory";
+  }
+
+  @Override
+  public Cache create(JsonObject config, Vertx vertx) {
+    InMemoryCacheOptions options = new InMemoryCacheOptions(config);
+    return new InMemoryCache(options);
+  }
+
 }

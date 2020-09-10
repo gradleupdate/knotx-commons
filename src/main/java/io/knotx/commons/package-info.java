@@ -13,23 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@ModuleGen(name = "knotx-commons", groupPackage = "io.knotx")
+package io.knotx.commons;
 
-rootProject.name = "knotx-commons"
-
-pluginManagement {
-    val version: String by settings
-    plugins {
-        id("io.knotx.java-library") version version
-        id("io.knotx.codegen") version version
-        id("io.knotx.unit-test") version version
-        id("io.knotx.jacoco") version version
-        id("io.knotx.maven-publish") version version
-        id("io.knotx.release-java") version version
-        id("org.nosphere.apache.rat") version "0.6.0"
-    }
-    repositories {
-        mavenLocal()
-        jcenter()
-        gradlePluginPortal()
-    }
-}
+import io.vertx.codegen.annotations.ModuleGen;

@@ -19,6 +19,7 @@ group = "io.knotx"
 
 plugins {
     id("io.knotx.java-library")
+    id("io.knotx.codegen")
     id("io.knotx.unit-test")
     id("io.knotx.jacoco")
     id("io.knotx.maven-publish")
@@ -33,6 +34,8 @@ repositories {
 }
 
 dependencies {
+    annotationProcessor(platform("io.knotx:knotx-dependencies:${project.version}"))
+
     implementation(platform("io.knotx:knotx-dependencies:${project.version}"))
     implementation(group = "io.vertx", name = "vertx-core")
     implementation(group = "io.vertx", name = "vertx-rx-java2")
@@ -42,8 +45,16 @@ dependencies {
     implementation(group = "org.junit.jupiter", name = "junit-jupiter-params")
     implementation(group = "org.junit.jupiter", name = "junit-jupiter-migrationsupport")
 
+    testImplementation("io.knotx:knotx-junit5:${project.version}")
     testImplementation(group = "org.mockito", name = "mockito-core")
     testImplementation(group = "org.mockito", name = "mockito-junit-jupiter")
+}
+
+tasks {
+    named<RatTask>("rat") {
+        excludes.addAll(listOf("*.yml", "*.md", "**/*.md", "**/build/*", "**/out/*"))
+    }
+    getByName("build").dependsOn("rat")
 }
 
 tasks {
@@ -52,6 +63,7 @@ tasks {
                 "*.md", // docs
                 "gradle/wrapper/**", "gradle*", "**/build/**", // Gradle
                 "*.iml", "*.ipr", "*.iws", "*.idea/**", // IDEs
+                "**/generated/*", "**/*.adoc",
                 ".github/*"
         ))
     }
