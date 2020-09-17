@@ -15,48 +15,92 @@
  */
 package io.knotx.commons.json;
 
-import java.util.Optional;
-import java.util.function.Function;
+import static java.util.stream.Collectors.toList;
 
 import io.vertx.core.json.JsonObject;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.function.BiFunction;
+import org.apache.commons.lang3.StringUtils;
 
-public class JsonObjectUtil {
+public final class JsonObjectUtil {
 
-  private static Function<JsonObject, JsonObject> toJsonObject(String key) {
-    return json -> json.getJsonObject(key);
+  private JsonObjectUtil() {
+    // utility class
   }
 
-  private static Function<JsonObject, String> toString(String key) {
-    return json -> Optional.ofNullable(json.getValue(key))
-        .map(Object::toString)
-        .orElse("");
-  }
-
-  public static String getString(String key, JsonObject parent) {
-    return getValue(key, parent, JsonObjectUtil::toString);
+  public static Object getObject(String key, JsonObject parent) {
+    return getValue(key, parent,
+        (lastSelector, directParent) -> directParent.getValue(lastSelector));
   }
 
   public static JsonObject getJsonObject(String key, JsonObject parent) {
     return getValue(key, parent, JsonObjectUtil::toJsonObject);
   }
 
-  public static <T> T getValue(String key, JsonObject parent,
-      Function<String, Function<JsonObject, T>> func) {
-    int dotIndex = key.indexOf('.');
-
-    if (dotIndex == -1) {
-      return func.apply(key)
-          .apply(parent);
-    }
-
-    String newKey = key.substring(dotIndex + 1);
-    JsonObject child = getChild(key, parent, dotIndex);
-
-    return child == null ? null : getValue(newKey, child, func);
+  public static String getString(String key, JsonObject parent) {
+    return getValue(key, parent, JsonObjectUtil::toString);
   }
 
-  private static JsonObject getChild(String key, JsonObject parent, int dotIndex) {
-    String childKey = key.substring(0, dotIndex);
-    return parent.getJsonObject(childKey);
+  public static void putValue(String key, JsonObject node, Object value) {
+    getOrPutJsonObject(node, allButLastSelector(key))
+        .put(lastSelector(key), value);
+  }
+
+  private static <T> T getValue(String key, JsonObject parent,
+      BiFunction<String, JsonObject, T> func) {
+    JsonObject directParent = getInnerJsonObject(parent, allButLastSelector(key));
+
+    return func.apply(lastSelector(key), directParent);
+  }
+
+  private static List<String> allButLastSelector(String keyChain) {
+    String[] keys = StringUtils.split(keyChain, ".");
+    return Arrays.stream(keys)
+        .limit(keys.length - 1)
+        .collect(toList());
+  }
+
+  private static String lastSelector(String keyChain) {
+    return StringUtils.contains(keyChain, '.')
+        ? StringUtils.substringAfterLast(keyChain, ".")
+        : keyChain;
+  }
+
+  private static JsonObject getInnerJsonObject(JsonObject node, List<String> keys) {
+    for (String key : keys) {
+      node = node.getJsonObject(key);
+      if (node == null) {
+        return new JsonObject();
+      }
+    }
+    return node;
+  }
+
+  private static JsonObject getOrPutJsonObject(JsonObject node, List<String> keys) {
+    for (String key : keys) {
+      node = getOrPutJsonObject(node, key);
+    }
+    return node;
+  }
+
+  private static JsonObject getOrPutJsonObject(JsonObject node, String key) {
+    JsonObject next = node.getJsonObject(key);
+    if (next == null) {
+      next = new JsonObject();
+      node.put(key, next);
+    }
+    return next;
+  }
+
+  private static JsonObject toJsonObject(String key, JsonObject parent) {
+    return parent.getJsonObject(key);
+  }
+
+  private static String toString(String key, JsonObject parent) {
+    return Optional.ofNullable(parent.getValue(key))
+        .map(Object::toString)
+        .orElse("");
   }
 }

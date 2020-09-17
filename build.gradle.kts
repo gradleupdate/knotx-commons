@@ -41,6 +41,7 @@ dependencies {
     implementation(group = "io.vertx", name = "vertx-rx-java2")
 
     implementation(group = "com.google.guava", name = "guava")
+    implementation(group = "org.apache.commons", name = "commons-lang3")
     implementation(group = "org.junit.jupiter", name = "junit-jupiter-api")
     implementation(group = "org.junit.jupiter", name = "junit-jupiter-params")
     implementation(group = "org.junit.jupiter", name = "junit-jupiter-migrationsupport")
