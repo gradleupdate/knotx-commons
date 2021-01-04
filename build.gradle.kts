@@ -33,6 +33,12 @@ repositories {
     gradlePluginPortal()
 }
 
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(8))
+    }
+}
+
 dependencies {
     annotationProcessor(platform("io.knotx:knotx-dependencies:${project.version}"))
 
